@@ -136,11 +136,15 @@ git push -u origin main
 
 **Step 9 – Watch the workflow**
 
-Open `https://github.com/<username>/python-ci-docker-lab/actions` → click the `ci-dockerhub` run → all steps should be green.
+Open `https://github.com/Jeevanandh-work/python-ci-docker-lab/actions` → click the `ci-dockerhub` run → all steps should be green.
+
+If the run failed with `Username and password required`, the secrets were missing. Add them (Step 7), then open the failed run → **Re-run all jobs**.
 
 **Step 10 – Verify on Docker Hub**
 
 Open `https://hub.docker.com/r/<username>/python-ci-lab/tags` → tags `latest` and `sha-xxxxxxx` should be listed.
+
+If the repository does not exist yet, create it once at `https://hub.docker.com/repository/create` with the name `python-ci-lab` and visibility Public.
 
 **Step 11 – Release with a tag**
 
@@ -157,5 +161,5 @@ Open the Actions tab again (new run) and then Docker Hub to see the `v1.0.0` tag
 
 1. **`ModuleNotFoundError: No module named 'app'`** – `pytest.ini` is missing or not in the project root. Create it with `pythonpath = .` and run `pytest -q` again.
 2. **`Activate.ps1 cannot be loaded because running scripts is disabled`** – run `Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass` and then activate again.
-3. **Workflow fails at "Login to Docker Hub"** – the secret names must be exactly `DOCKERHUB_USERNAME` and `DOCKERHUB_TOKEN`, and the token must be a Docker Hub access token (not your password).
+3. **Workflow fails with `Username and password required`** – the secrets `DOCKERHUB_USERNAME` and `DOCKERHUB_TOKEN` are not set (or the names are misspelled). Add them under Settings → Secrets and variables → Actions, then use **Re-run all jobs**. The token must be a Docker Hub access token, not your password.
 4. **`docker: error during connect`** – Docker Desktop is not running. Start Docker Desktop and wait until it says "Engine running", then run the build again.
